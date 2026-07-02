@@ -88,29 +88,21 @@ if st.button("🌾 Recommend Fertilizer"):
         crop_encoded = label_encoders["Crop Type"].transform([crop])[0]
 
         # Create dataframe
-        input_data = pd.DataFrame(
-            [[
-                temperature,
-                humidity,
-                moisture,
-                soil_encoded,
-                crop_encoded,
-                nitrogen,
-                potassium,
-                phosphorous
-            ]],
-            columns=[
-                "Temparature",
-                "Humidity ",
-                "Moisture",
-                "Soil Type",
-                "Crop Type",
-                "Nitrogen",
-                "Potassium",
-                "Phosphorous"
-            ]
-        )
+        feature_names = model.get_booster().feature_names
 
+input_data = pd.DataFrame(
+    [[
+        temperature,
+        humidity,
+        moisture,
+        soil_encoded,
+        crop_encoded,
+        nitrogen,
+        potassium,
+        phosphorous
+    ]],
+    columns=feature_names
+)
         # -----------------------------
         # Debug Information
         # -----------------------------
