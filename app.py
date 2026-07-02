@@ -83,51 +83,31 @@ if st.button("🌾 Recommend Fertilizer"):
 
     try:
 
-        # Encode categorical values
         soil_encoded = label_encoders["Soil Type"].transform([soil])[0]
         crop_encoded = label_encoders["Crop Type"].transform([crop])[0]
 
-        # Create dataframe
         feature_names = model.get_booster().feature_names
 
-input_data = pd.DataFrame(
-    [[
-        temperature,
-        humidity,
-        moisture,
-        soil_encoded,
-        crop_encoded,
-        nitrogen,
-        potassium,
-        phosphorous
-    ]],
-    columns=feature_names
-)
-        # -----------------------------
-        # Debug Information
-        # -----------------------------
-        st.subheader("Input Data")
-        
+        input_data = pd.DataFrame(
+            [[
+                temperature,
+                humidity,
+                moisture,
+                soil_encoded,
+                crop_encoded,
+                nitrogen,
+                potassium,
+                phosphorous
+            ]],
+            columns=feature_names
+        )
 
-        st.write("Column Names:")
-        
-
-        # -----------------------------
-        # Prediction
-        # -----------------------------
         prediction = model.predict(input_data)
 
-        st.write("Prediction Value:")
-        st.write(prediction)
-
-        # -----------------------------
-        # Decode Prediction
-        # -----------------------------
         fertilizer = label_encoders["Fertilizer Name"].inverse_transform(prediction)
 
         st.success(f"✅ Recommended Fertilizer: {fertilizer[0]}")
 
     except Exception as e:
-
         st.error("Prediction Failed")
         st.exception(e)
